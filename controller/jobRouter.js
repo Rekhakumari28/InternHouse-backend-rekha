@@ -99,7 +99,7 @@ async function findJobById(JobId) {
 
 async function updatePost(JobId,dataToUpdate) {
     try {
-      const job = await JobPost.findByIdAndUpdate(JobId, dataToUpdate);
+      const job = await JobPost.findByIdAndUpdate(JobId, dataToUpdate, {new: true});
       return job
     } catch (error) {
       console.log(error)
@@ -109,7 +109,7 @@ async function updatePost(JobId,dataToUpdate) {
   const jobUpdate = asyncHandler (async (req, res)=>{
       try {
           const job = await updatePost(req.params.JobId, req.body)
-          if(job.length !=0){
+          if(job){
             res.status(200).json({message: "job is updated successfully.", jobPost: job})
           }else{
               res.status(400).json({ error: "No job post found." }); 
